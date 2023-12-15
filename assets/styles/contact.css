@@ -1,0 +1,64 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+p{
+    color: white;
+}
+
+.style-navlinks{
+    margin: 5px;
+    background-color: #FFF0F5;
+    border-radius: 20px;
+}
+.boton-stile{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 5rem;
+}
+
+.text-footer{
+    color: white;
+}
+
+.iconos-redes a img, .huella{
+    height: 50px;
+    color: white;
+    border-radius: 50%;
+    border: 2px solid white;
+    font-size: 1.5rem;
+    transition: all 0.2s ease-in;
+}
+.iconos-redes a{
+    margin: 0 10px 0 10px;
+}
+
+.iconos-redes a{
+    margin: 0 10px 0 10px;
+}
+
+footer{
+    background-color: #3b2441;
+    min-height: 10vh;
+ }
+.logofooter{
+  height: 250px;
+}
+
+.style-alert{
+    caret-color: white;
+    border-radius: 10px;
+}
+
+@media screen and (max-width:900px) {
+    .ppal{
+        flex-direction: column;
+        align-items: center;
+    }
+    .mapa{
+        margin: 1rem 0 1rem 0;
+        width: 50%;
+    }
+}

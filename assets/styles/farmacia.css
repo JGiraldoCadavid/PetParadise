@@ -1,0 +1,146 @@
+.contenedorCard{
+    width: 80vw;
+    /* min-height: 550px; */
+}
+.contenedorCheckbox{
+    width: 15vw;
+    height: 30vh;
+    
+}
+.stockJuguetes{
+    position: absolute;
+    border: 1px solid #f55288;
+    border-radius: 20px;
+    right: 0.1rem;
+    top: 0.3rem;
+    background-color: #f55288;
+    color: white;
+    height: 3rem;
+    width: 6rem;
+    font-size: 14;
+} 
+.error{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+.imgjuguetes{
+    width: 90%;
+    height: 11rem;
+    margin: 0.5rem;
+}
+.nombreJuguetes{
+    height: 3.5rem;
+}
+.masInfo{
+    background-color: #dc3545;
+}
+.masInfo:hover{
+    background-color: #f10820;
+}
+.carritoJuguetes{
+    background-color: #dc3545;
+    height: 2.8rem;
+    font-size: 25px;
+}
+.carritoJuguetes:hover{
+    background-color: #f10820;
+}
+@media (min-width: 768px) and (max-width:992px){
+    .contenedorJuguetes{
+        align-items: center !important;
+    }
+    .contenedorCard{
+        width: 80vw;
+    }
+    .contenedorCheckbox{
+        width: 80vw;
+        flex-direction: row !important;
+        justify-content: center;
+    }
+    .imputSearch{
+        height: 3rem !important;
+    }
+}
+@media (max-width:767px){
+    .contenedorCard{
+        width: 80vw;
+    }
+    .contenedorCheckbox{
+        width: 80vw;
+    }
+    .checkJuguetes{
+        flex-direction: column !important;
+    }
+}
+.carritoProductos{
+    background-color: #dc3545;
+    height: 2.8rem;
+    font-size: 25px;
+}
+.carritoProductos:hover{
+    background-color: #f10820;
+}
+.imgProductos{
+    width: 90%;
+    height: 11rem;
+    margin: 0.5rem;
+}
+.cesta{
+    font-size: 30px;
+}
+.carrito {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+.card-carrito{
+    max-height: 100px;
+}
+.total{
+    border: 2px solid black;
+    width: 50%;
+}
+.eliminar{
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.continuar{
+    background-color: #19a71e;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+footer{
+    background-color: #3b2441;
+    min-height: 10vh;
+ }
+ .logofooter{
+    height: 250px;
+}
+main{
+    background-color: gainsboro;
+    min-height: 75vh;
+}
+.span{
+    font-family: Arial, Helvetica, sans-serif;
+}
+li{
+    list-style: none;
+}
+li>div>img{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.aumentoDisminucion{
+    min-width: 25px;
+}

@@ -1,0 +1,160 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.cesta{
+    font-size: 30px;
+}
+
+footer{
+   background-color: #3b2441;
+   min-height: 10vh;
+}
+main{
+    background-color: gainsboro;
+    min-height: 75vh;
+}
+.logofooter{
+    height: 250px;
+}
+.card{
+    width:30%;
+    min-height: 100%;
+    justify-content: space-between;
+}
+.card-body button a, label{
+    text-decoration: none;
+    color: white;
+}
+.img-card{
+    display: flex;
+    width: 20vw;
+    margin-top: 1rem;
+    border-radius: 10px;
+}
+.precio{
+    border-radius: 10px;
+    width: 48px;
+    height: 24px;
+    font-weight: bolder;
+}
+.boton{
+    width: 50%;
+    margin-left: 25%;
+}
+.parrafo-oscuro{
+   background-color: rgba(220, 9, 9, 0.804);
+}
+.agotado{
+    background-color: lightgray;
+}
+.encabezado{
+    height: 390px;
+}
+.agotado, .parrafo-oscuro{
+    height: 40px;
+}
+[v-cloak]{
+    display: none;
+}
+.carrito {
+background-color: #f8f9fa;
+border-radius: 5px;
+}
+.card-carrito{
+    max-height: 100px;
+}
+.offcanvas-title {
+background-color: #343a40;
+color: #ffffff;
+padding: 10px;
+margin: 0;
+border-radius: 5px 5px 0 0;
+}
+.span{
+    font-family: Arial, Helvetica, sans-serif;
+}
+li{
+    list-style: none;
+}
+li>div>img{
+    max-width: 200px;
+    max-height: 200px;
+}
+.eliminar{
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.continuar{
+    background-color: #19a71e;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.aumentoDisminucion{
+    min-width: 25px;
+}
+.total{
+    border: 2px solid black;
+    width: 50%;
+}
+.stockProducto{
+    position: absolute;
+    border: 1px solid #f55288;
+    border-radius: 20px;
+    right: 0.1rem;
+    top: 0.3rem;
+    background-color: #f55288;
+    color: white;
+    height: 3rem;
+    width: 6rem;
+    font-size: 14;
+}
+.nombreProductos{
+    height: 3.5rem;
+}
+.masInfo{
+    background-color: #dc3545;
+}
+.masInfo:hover{
+    background-color: #f10820;
+}
+.carritoProductos{
+    background-color: #dc3545;
+    height: 2.8rem;
+    font-size: 25px;
+}
+.carritoProductos:hover{
+    background-color: #f10820;
+}
+.imgProductos{
+    width: 90%;
+    height: 11rem;
+    margin: 0.5rem;
+}
+.error{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+.imputSearch{
+    height: 50px;
+}
+@media screen and (max-width:900px) {
+    .fondo-principal{
+        flex-direction: column;
+    }
+}
+.parrafoPpal{
+    text-align: justify;
+}

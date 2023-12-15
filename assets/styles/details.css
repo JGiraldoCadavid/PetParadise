@@ -1,0 +1,76 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+header{
+  min-height: 10vh;
+}
+main{
+  background-color: gainsboro;
+  min-height: 80vh;
+
+}
+footer{
+    min-height: 10vh;
+    background-color: rgba(64, 2, 74, 0.804)
+
+}
+.logofooter{
+  height: 250px;
+}
+li>div>img{
+  max-width: 200px;
+  max-height: 200px;
+}
+.eliminar{
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.continuar{
+  background-color: #19a71e;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.aumentoDisminucion{
+  min-width: 25px;
+}
+.carritoProductos{
+  background-color: #dc3545;
+  height: 2.8rem;
+  font-size: 25px;
+}
+.carritoProductos:hover{
+  background-color: #f10820;
+}
+.imgProductos{
+  width: 90%;
+  height: 11rem;
+  margin: 0.5rem;
+}
+.img-card{
+  display: flex;
+  width: 20vw;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+.cesta{
+  font-size: 30px;
+}
+.total{
+  border: 2px solid black;
+  width: 50%;
+}
+li{
+  list-style: none;
+}
