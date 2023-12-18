@@ -3,30 +3,48 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
+      product: {},
       products: [],
-      mostSelledProducts: [],
-      email: "",
+      idProduct: "",
+      id: "",
       cart: [],
-      amount: 0,
       totalCart: 0,
-      amountsByProduct: {},
+      amount: 0,
       shippingLow: 12000,
       shippingHigh: 18000,
-      isLoading: true,
+      email: "",
+      productsCategory: [],
+      newReview: {
+        name: "",
+        comment: "",
+        rating: "1",
+      },
+      reviews: [],
     };
   },
   mounted() {
     this.loadCart();
+    this.getReviews();
   },
   created() {
-    this.isLoading = true;
     axios("https://mindhub-xj03.onrender.com/api/petshop")
       .then((response) => {
         this.products = response.data;
-        this.mostSelledProducts = this.products.filter(
-          (product) => product.disponibles <= 2
+
+        this.id = location.search;
+        let params = new URLSearchParams(this.id);
+        this.idProduct = params.get("id");
+        this.product = this.products.find(
+          (prod) => prod._id == this.idProduct
         );
 
+        this.productsCategory = this.products.filter((prod) => {
+          return (
+            this.product.categoria == prod.categoria &&
+            prod.disponibles > 0 &&
+            this.product._id != prod._id
+          );
+        });
         this.products.forEach((product) => {
           product.amount = 0;
           product.availableInitials = product.disponibles;
@@ -40,11 +58,10 @@ createApp({
             productInList.disponibles -= producInCart.amount;
           }
         });
-        this.isLoading = false;
+
         this.saveCart();
       })
       .catch((err) => {
-        this.isLoading = false;
         console.log(err);
       });
   },
@@ -63,6 +80,43 @@ createApp({
     },
   },
   methods: {
+    loadCart() {
+      const cartData = localStorage.getItem("cart");
+      const totalCart = localStorage.getItem("totalCart");
+      const amountsByProduct = JSON.parse(
+        localStorage.getItem("amountsByProduct")
+      );
+      const amount = localStorage.getItem("amount");
+      if (cartData) {
+        this.cart = JSON.parse(cartData);
+        this.cart.forEach((product) => {
+          if (amountsByProduct.hasOwnProperty(product._id)) {
+            product.amount = amountsByProduct[product._id];
+          }
+        });
+      }
+      if (amount) {
+        this.amount = parseFloat(amount);
+      } else {
+        this.amount = 0;
+      }
+      if (totalCart) {
+        this.totalCart = parseFloat(totalCart);
+      } else {
+        this.totalCart = 0;
+      }
+      if (this.cart.length == 0) {
+        this.totalCart = 0;
+      }
+
+      this.cart.forEach((product) => {
+        const productInList = this.products.find((p) => p._id == product._id);
+        if (productInList) {
+          product.amount = amountsByProduct[product._id];
+          product.disponibles = productInList.disponibles;
+        }
+      });
+    },
     addToCart(product) {
       if (product.disponibles > 0) {
         const prodCart = this.cart.find((p) => p._id == product._id);
@@ -103,43 +157,6 @@ createApp({
         "amountsByProduct",
         JSON.stringify(amountsByProduct)
       );
-    },
-    loadCart() {
-      const cartData = localStorage.getItem("cart");
-      const totalCart = localStorage.getItem("totalCart");
-      const amountsByProduct = JSON.parse(
-        localStorage.getItem("amountsByProduct")
-      );
-      const amount = localStorage.getItem("amount");
-      if (cartData) {
-        this.cart = JSON.parse(cartData);
-        this.cart.forEach((product) => {
-          if (amountsByProduct.hasOwnProperty(product._id)) {
-            product.amount = amountsByProduct[product._id];
-          }
-        });
-      }
-      if (amount) {
-        this.amount = parseFloat(amount);
-      } else {
-        this.amount = 0;
-      }
-      if (totalCart) {
-        this.totalCart = parseFloat(totalCart);
-      } else {
-        this.totalCart = 0;
-      }
-      if (this.cart.length == 0) {
-        this.totalCart = 0;
-      }
-
-      this.cart.forEach((product) => {
-        const productInList = this.products.find((p) => p._id == product._id);
-        if (productInList) {
-          product.amount = amountsByProduct[product._id];
-          product.disponibles = productInList.disponibles;
-        }
-      });
     },
     plusAmount(product) {
       if (product.disponibles > 0) {
@@ -184,9 +201,6 @@ createApp({
         this.saveCart();
       }
     },
-    getStockStatus(product) {
-      return product.disponibles > 0 && product.disponibles <= 5;
-    },
     deleteProduct(product) {
       const index = this.cart.findIndex((p) => p._id == product._id);
       if (index !== -1) {
@@ -226,6 +240,26 @@ createApp({
         didRender: this.customizeAlertContainer,
       });
       this.emptyCart();
+    },
+    getStockStatus(product) {
+      return product.disponibles > 0 && product.disponibles <= 5;
+    },
+    redirectToDetailsPage(productId) {
+      window.location.href = `./details1.html?id=${productId}`;
+    },
+    addReview() {
+      this.reviews.push({ ...this.newReview });
+      localStorage.setItem("reviews", JSON.stringify(this.reviews));
+      this.newReview = { name: "", comment: "", rating: 1 };
+    },
+    getReviews() {
+      const storedReviews = localStorage.getItem("reviews");
+      if (storedReviews) {
+        this.reviews = JSON.parse(storedReviews);
+      }
+    },
+    getRatingStars(rating) {
+      return "★".repeat(rating) + "☆".repeat(5 - rating);
     },
     subscribe() {
       if (this.email.trim() == "") {
