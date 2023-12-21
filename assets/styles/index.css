@@ -423,9 +423,10 @@ li {
 }
 
 .card-img-top {
-  height: 150px;
+  height: 170px;
 }
-.img-huella{
+
+.img-huella {
   width: 30px;
   height: 30px;
 }

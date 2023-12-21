@@ -1,5 +1,4 @@
 const { createApp } = Vue;
-
 createApp({
   data() {
     return {
@@ -30,14 +29,10 @@ createApp({
     axios("https://mindhub-xj03.onrender.com/api/petshop")
       .then((response) => {
         this.products = response.data;
-
         this.id = location.search;
         let params = new URLSearchParams(this.id);
         this.idProduct = params.get("id");
-        this.product = this.products.find(
-          (prod) => prod._id == this.idProduct
-        );
-
+        this.product = this.products.find((prod) => prod._id == this.idProduct);
         this.productsCategory = this.products.filter((prod) => {
           return (
             this.product.categoria == prod.categoria &&
@@ -49,7 +44,6 @@ createApp({
           product.amount = 0;
           product.availableInitials = product.disponibles;
         });
-
         this.cart.forEach((producInCart) => {
           const productInList = this.products.find(
             (p) => p._id == producInCart._id
@@ -58,7 +52,6 @@ createApp({
             productInList.disponibles -= producInCart.amount;
           }
         });
-
         this.saveCart();
       })
       .catch((err) => {
@@ -108,7 +101,6 @@ createApp({
       if (this.cart.length == 0) {
         this.totalCart = 0;
       }
-
       this.cart.forEach((product) => {
         const productInList = this.products.find((p) => p._id == product._id);
         if (productInList) {
@@ -136,12 +128,10 @@ createApp({
             this.cart.push(product);
           }
         }
-
         const index = this.products.findIndex((p) => p._id == product._id);
         if (index != -1) {
           this.products[index].disponibles = product.disponibles;
         }
-
         this.saveCart();
       }
     },
@@ -162,23 +152,18 @@ createApp({
       if (product.disponibles > 0) {
         product.amount++;
         product.disponibles--;
-
         const productInCart = { ...product };
         const prodCart = this.cart.find((p) => p._id == productInCart._id);
-
         if (prodCart) {
           prodCart.amount = productInCart.amount;
         } else {
           this.cart.push(productInCart);
         }
-
         const index = this.products.findIndex((p) => p._id == product._id);
         if (index != -1) {
           this.products[index].disponibles = product.disponibles;
         }
-
         this.totalCart += product.precio;
-
         this.saveCart();
       }
     },
@@ -186,18 +171,15 @@ createApp({
       if (product.amount > 1) {
         product.amount--;
         product.disponibles++;
-
         const index = this.products.findIndex((p) => p._id == product._id);
         if (index !== -1) {
           this.products[index].disponibles = product.disponibles;
         }
-
         const cartIndex = this.cart.findIndex((p) => p._id == product._id);
         if (cartIndex !== -1) {
           this.totalCart -= product.precio;
           this.cart[cartIndex].amount = product.amount;
         }
-
         this.saveCart();
       }
     },
@@ -210,10 +192,8 @@ createApp({
         if (indexInProducts !== -1) {
           this.products[indexInProducts].disponibles += product.amount;
         }
-
         this.totalCart -= product.amount * product.precio;
         this.cart.splice(index, 1);
-
         product.amount = 0;
         this.saveCart();
       }
@@ -222,12 +202,10 @@ createApp({
       this.cart = [];
       this.totalCart = 0;
       this.amountsByProduct = {};
-
       this.products.forEach((product) => {
         product.amount = 0;
         product.disponibles = product.availableInitials;
       });
-
       this.saveCart();
     },
     pay() {
@@ -243,15 +221,14 @@ createApp({
     },
     getStockStatus(product) {
       const disponibles = product.disponibles;
-  
       if (disponibles > 0 && disponibles <= 5) {
-          return 'Últimas unidades';
+        return "Últimas unidades";
       } else if (disponibles === 0) {
-          return 'Agotado';
+        return "Agotado";
       } else {
-          return '';
+        return "";
       }
-  },
+    },
     redirectToDetailsPage(productId) {
       window.location.href = `./details.html?id=${productId}`;
     },

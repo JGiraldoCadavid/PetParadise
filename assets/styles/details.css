@@ -187,10 +187,6 @@ li {
     opacity: 0.9;
 }
 
-.blackShadow {
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
-}
-
 .container-fluid {
     padding: 0;
 }
@@ -451,10 +447,11 @@ li {
         width: 50%;
     }
 }
-.img-huella{
+
+.img-huella {
     width: 30px;
     height: 30px;
-  }
+}
 
 .custom-swal-container {
     color: #3c9700;
