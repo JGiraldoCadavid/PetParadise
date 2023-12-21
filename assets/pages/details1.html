@@ -272,9 +272,8 @@
                   class="stockProduct text-center pb-5"
                   v-if="getStockStatus(product)"
                 >
-                  Últimas unidades
+                  {{ getStockStatus(product) }}
                 </p>
-                <p class="stockProduct text-center pb-5" v-else>Agotado!</p>
               </div>
             </div>
           </div>
@@ -319,9 +318,8 @@
                 class="stockProduct text-center pb-5"
                 v-if="getStockStatus(product)"
               >
-                Últimas unidades
+                {{ getStockStatus(product) }}
               </p>
-              <p class="stockProduct text-center pb-5" v-else>Agotado!</p>
             </div>
           </div>
         </div>
@@ -432,7 +430,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Ingresa el email"
+                    placeholder="email"
                     v-model="email"
                   />
                   <button
@@ -441,6 +439,11 @@
                     @click.prevent="subscribe"
                   >
                     Suscribirse
+                    <img
+                      class="img-huella"
+                      src="../images/boton1.png"
+                      alt="huella"
+                    />
                   </button>
                 </form>
               </div>
@@ -485,13 +488,13 @@
                 <h3>Instagram</h3>
                 <div class="row gallery">
                   <div class="col-6">
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="../images/collar-gatos.png"
                         alt="Image"
                         class="img-fluid"
                     /></a>
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="../images/cepillo.jpg"
                         alt="Image"
@@ -499,13 +502,13 @@
                     /></a>
                   </div>
                   <div class="col-6">
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="../images/collar-perros.png"
                         alt="Image"
                         class="img-fluid"
                     /></a>
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="../images/tableta-pulgas-perros.jpg"
                         alt="Image"

@@ -242,8 +242,16 @@ createApp({
       this.emptyCart();
     },
     getStockStatus(product) {
-      return product.disponibles > 0 && product.disponibles <= 5;
-    },
+      const disponibles = product.disponibles;
+  
+      if (disponibles > 0 && disponibles <= 5) {
+          return 'Últimas unidades';
+      } else if (disponibles === 0) {
+          return 'Agotado';
+      } else {
+          return '';
+      }
+  },
     redirectToDetailsPage(productId) {
       window.location.href = `./details1.html?id=${productId}`;
     },

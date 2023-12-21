@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="shortcut icon" href="../images/PetParadiseIcono.png" type="image/x-icon">
-    <link rel="stylesheet" href="../styles/details1.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="../images/PetParadiseIcono.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../styles/toys.css" />
     <title>Pet Paradise | Detalle</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="layout" id="app" v-cloak>
       <div class="fixed-navbar-container">
         <header class="topbar">
@@ -78,7 +90,9 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="fs-4 nav-link text-light" href="./toys1.html"
+                    <a
+                      class="fs-4 fw-semibold nav-link active blackShadow"
+                      href="#"
                       >Juguetes</a
                     >
                   </li>
@@ -212,68 +226,352 @@
           </div>
         </div>
       </div>
-        <main class="flex-grow-1">
-
-        </main>
-        <footer class="footerTIA pb-3">
-            <div class="site-section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md pr-md-5 mb-4 mb-md-0">
-                    <h3>Acerca de nosotros</h3>
-                    <p class="text-justify text-light">
-                        Nos dedicamos a ofrecer una experiencia única para ti y tus mascotas. Nos enorgullece proporcionar una amplia variedad de juguetes especialmente seleccionados para mantener a tus amigos de cuatro patas activos y entretenidos.</p>
-                    <p class="text-justify text-light">
-                        Además, entendemos la importancia de la salud y el cuidado de tus mascotas. En nuestra farmacia para mascotas, ofrecemos una gama completa de productos de alta calidad, desde alimentos especializados hasta suplementos y medicamentos. 
-                    </p>
-                    <ul class="list-unstyled quick-info mb-4">
-                      <li><a href="#" class="d-flex align-items-center"><span class="fa-solid fa-mobile-screen-button me-3" style="color: #66b100;"></span>+57 300 000 0000</a></li>
-                      <li><a href="#" class="d-flex align-items-center"><span class="fa-regular fa-envelope me-3" style="color: #66b100;"></span>petparadise@gmail.com</a></li>
-                    </ul>
-                    <form action="#" class="subscribe">
-                      <input type="text" class="form-control" placeholder="Ingresa el email" v-model="email">
-                      <button class="btn btn-submit" type="submit" @click.prevent="subscribe">Suscribirse</button>
-                    </form>
+      <main class="flex-grow-1 mart">
+        <img class="img-fluid" src="../images/toys.png" alt="toys" />
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="d-flex icon-buy">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i
+                    class="fa-solid fa-truck fa-2x p-1"
+                    style="color: #000000"
+                  ></i>
+                  <p class="p-2 text-center">
+                    <span class="d-block text-justify fw-semibold"
+                      >Envío gratis</span
+                    >
+                    Por compras superiores a $49.900
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="d-flex icon-buy">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i
+                    class="fa-solid fa-hand-holding-dollar fa-2x p-1"
+                    style="color: #000000"
+                  ></i>
+                  <p class="p-2 text-center">
+                    <span class="d-block text-justify fw-semibold"
+                      >Devoluciones Gratis</span
+                    >
+                    30 días para devolver el pedido gratis
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="d-flex icon-buy">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i
+                    class="fa-solid fa-house fa-2x p-1"
+                    style="color: #000000"
+                  ></i>
+                  <p class="p-2 text-center">
+                    <span class="d-block text-justify fw-semibold"
+                      >Pago contra entrega</span
+                    >
+                    Pide online y paga en casa
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="d-flex icon-buy">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i
+                    class="fa-solid fa-clock fa-2x p-1"
+                    style="color: #000000"
+                  ></i>
+                  <p class="p-2 text-center">
+                    <span class="d-block text-justify fw-semibold"
+                      >Entrega en 5 días hábiles</span
+                    >
+                    apróximadamente*
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex">
+          <div class="col-lg-3">
+            <div
+              class="d-flex flex-column align-items-center justify-content-start"
+            >
+              <form
+                class="d-flex flex-column border rounded p-3 bg-orange m-3"
+                role="search"
+                style="width: 14rem"
+              >
+                <input
+                  class="inputSearch form-control mb-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="search"
+                  v-model="inputText"
+                  @input="applyFilters"
+                />
+                <div class="d-flex flex-column">
+                  <h5>Precio</h5>
+                  <div class="form-check m-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      v-model="priceRange"
+                      value="ZeroToThousand"
+                      id="zeroToThousand"
+                      @change="applyFilters"
+                    />
+                    <label class="form-check-label" for="zeroToThousand"
+                      >$0 - $1.000</label
+                    >
                   </div>
-                  <div class="col-md mb-4 mb-md-0">
-                    <h3>Últimos Tweets</h3>
-                    <ul class="list-unstyled tweets">
-                      <li class="d-flex">
-                        <div><span class="fa-brands fa-x-twitter"></span></div>
-                        <div class="ms-3 text-justify text-light">🐾 ¡Bienvenido a tu paraíso para mascotas, Pet Paradise! 🛍️ Tu pedido está en nuestras manos y nos emociona preparar una experiencia única para tus amigos peludos. Desde juguetes hasta productos de farmacia, ¡estamos aquí para consentir a tus mascotas! 🌈✨ #PetParadise #MimosParaMascotas</div>
-                      </li>
-                      <li class="d-flex">
-                        <div><span class="fa-brands fa-x-twitter"></span></div>
-                        <div class="ms-3 text-justify text-light">🎁 ¡Gracias por confiar en Pet Paradise para las necesidades de tus mascotas! 🚚 Tu pedido ha sido recibido y estamos listos para enviar una dosis de felicidad a tus amigos peludos. ¡Que tus mascotas disfruten de su paraíso personal! 🐶🐾 #PetParadiseEntrega #ClientesFelices</div>
-                      </li>
-                      <li class="d-flex">
-                        <div><span class="fa-brands fa-x-twitter"></span></div>
-                        <div class="ms-3 text-justify text-light">🌟 ¡Tu viaje al paraíso de las mascotas ha comenzado con Pet Paradise! 🛒 Gracias por elegirnos para consentir a tus amigos peludos. Tu pedido ha sido recibido y pronto tus mascotas disfrutarán de la magia de nuestro paraíso de juguetes y cuidado de la salud. 🐱🐾 #PetParadiseExperiencia #GraciasClientes</div>
-                      </li>
-                    </ul>
+                  <div class="form-check m-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      v-model="priceRange"
+                      value="ThousandToTwoThousand"
+                      id="thousandToTwoThousand"
+                      @change="applyFilters"
+                    />
+                    <label class="form-check-label" for="thousandToTwoThousand"
+                      >$1.000 - $2.000</label
+                    >
                   </div>
-                  <div class="col-md-3 mb-4 mb-md-0">
-                    <h3>Instagram</h3>
-                    <div class="row gallery">
-                      <div class="col-6">
-                        <a href="#"><img src="../images/collar-gatos.png" alt="Image" class="img-fluid"></a>
-                        <a href="#"><img src="../images/cepillo.jpg" alt="Image" class="img-fluid"></a>
-                      </div>
-                      <div class="col-6">
-                        <a href="#"><img src="../images/collar-perros.png" alt="Image" class="img-fluid"></a>
-                        <a href="#"><img src="../images/tableta-pulgas-perros.jpg" alt="Image" class="img-fluid"></a>
-                      </div>
+                  <div class="form-check m-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      v-model="priceRange"
+                      value="OverTwoThousand"
+                      id="overTwoThousand"
+                      @change="applyFilters"
+                    />
+                    <label class="form-check-label" for="overTwoThousand"
+                      >mayor a $2.000</label
+                    >
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div @click="handleClickOutside" class="mt-2">
+              <div
+                class="loader-container d-flex justify-content-center align-items-center"
+                v-if="isLoading"
+              >
+                <div class="loader">
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-wrap justify-content-center"
+                v-else-if="filteredToys.length != 0"
+              >
+                <div
+                  class="card m-3"
+                  style="width: 14rem"
+                  v-for="product of filteredToys"
+                >
+                  <img
+                    :src="product.imagen"
+                    class="card-img-top"
+                    alt="product.producto"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{product.producto}}</h5>
+                    <h6 class="text-end fs-4 mb-3">
+                      $ {{product.precio.toLocaleString('de-DE')}}
+                    </h6>
+                    <div
+                      class="d-flex align-items-center justify-content-center"
+                    >
+                      <a
+                        :href="'./details1.html?id='+product._id"
+                        class="btn-card me-2 p-1 fw-semibold"
+                        >Mas información</a
+                      >
+                      <button
+                        type="button"
+                        class="btn-card p-1"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                        v-show="product.disponibles != 0"
+                        @click="addToCart(product)"
+                      >
+                        <i class="fa-solid fa-cart-shopping"></i>
+                      </button>
                     </div>
+                  </div>
+                  <div>
+                    <p
+                      class="stockProduct text-center pb-5"
+                      v-if="getStockStatus(product)"
+                    >
+                      {{ getStockStatus(product) }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <section v-else class="sect">
+                <h4 class="me-5">No hay productos disponibles.</h4>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footerTIA pb-3">
+        <div class="site-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md pr-md-5 mb-4 mb-md-0">
+                <h3>Acerca de nosotros</h3>
+                <p class="text-justify text-light">
+                  Nos dedicamos a ofrecer una experiencia única para ti y tus
+                  mascotas. Nos enorgullece proporcionar una amplia variedad de
+                  juguetes especialmente seleccionados para mantener a tus
+                  amigos de cuatro patas activos y entretenidos.
+                </p>
+                <p class="text-justify text-light">
+                  Además, entendemos la importancia de la salud y el cuidado de
+                  tus mascotas. En nuestra farmacia para mascotas, ofrecemos una
+                  gama completa de productos de alta calidad, desde alimentos
+                  especializados hasta suplementos y medicamentos.
+                </p>
+                <ul class="list-unstyled quick-info mb-4">
+                  <li>
+                    <a href="#" class="d-flex align-items-center"
+                      ><span
+                        class="fa-solid fa-mobile-screen-button me-3"
+                        style="color: #66b100"
+                      ></span
+                      >+57 300 000 0000</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="d-flex align-items-center"
+                      ><span
+                        class="fa-regular fa-envelope me-3"
+                        style="color: #66b100"
+                      ></span
+                      >petparadise@gmail.com</a
+                    >
+                  </li>
+                </ul>
+                <form action="#" class="subscribe">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="email"
+                    v-model="email"
+                  />
+                  <button
+                    class="btn btn-submit"
+                    type="submit"
+                    @click.prevent="subscribe"
+                  >
+                    Suscribirse
+                    <img
+                      class="img-huella"
+                      src="../images/boton1.png"
+                      alt="huella"
+                    />
+                  </button>
+                </form>
+              </div>
+              <div class="col-md mb-4 mb-md-0">
+                <h3>Últimos Tweets</h3>
+                <ul class="list-unstyled tweets">
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🐾 ¡Bienvenido a tu paraíso para mascotas, Pet Paradise!
+                      🛍️ Tu pedido está en nuestras manos y nos emociona
+                      preparar una experiencia única para tus amigos peludos.
+                      Desde juguetes hasta productos de farmacia, ¡estamos aquí
+                      para consentir a tus mascotas! 🌈✨ #PetParadise
+                      #MimosParaMascotas
+                    </div>
+                  </li>
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🎁 ¡Gracias por confiar en Pet Paradise para las
+                      necesidades de tus mascotas! 🚚 Tu pedido ha sido recibido
+                      y estamos listos para enviar una dosis de felicidad a tus
+                      amigos peludos. ¡Que tus mascotas disfruten de su paraíso
+                      personal! 🐶🐾 #PetParadiseEntrega #ClientesFelices
+                    </div>
+                  </li>
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🌟 ¡Tu viaje al paraíso de las mascotas ha comenzado con
+                      Pet Paradise! 🛒 Gracias por elegirnos para consentir a
+                      tus amigos peludos. Tu pedido ha sido recibido y pronto
+                      tus mascotas disfrutarán de la magia de nuestro paraíso de
+                      juguetes y cuidado de la salud. 🐱🐾
+                      #PetParadiseExperiencia #GraciasClientes
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-3 mb-4 mb-md-0">
+                <h3>Instagram</h3>
+                <div class="row gallery">
+                  <div class="col-6">
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/collar-gatos.png"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/cepillo.jpg"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                  </div>
+                  <div class="col-6">
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/collar-perros.png"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/tableta-pulgas-perros.jpg"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
                   </div>
                 </div>
               </div>
             </div>
-        </footer>
+          </div>
+        </div>
+      </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../scripts/details1.js"></script>  
-</body>
+    <script src="../scripts/toys1.js"></script>
+  </body>
 </html>

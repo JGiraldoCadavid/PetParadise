@@ -4,29 +4,35 @@ const { createApp } = Vue
     data() {
       return {
         product:{},
-        products: [], 
-        idProduct:"", 
-        id:"",
+        products: [],
         cart:[],
         totalCart:0,
         amount:0,
         shippingLow: 12000,
-        shippingHigh: 18000                
+        shippingHigh: 18000,
+        zeroToThousand: false,
+        thousandToTwoThousand: false,
+        overTwoThousand: false,
+        inputText:"",
+        phamarcy:[],
+        isLoading: true,
+        email: "",
+        filteredPhamarcy:[],
+        priceRange:""
       }
     },
     mounted() {
         this.loadCart();
     },
     created(){
+        this.isLoading = true;
         axios('https://mindhub-xj03.onrender.com/api/petshop')
         .then(response => {
-            this.products=response.data;
-
-            this.id=location.search
-            let params= new URLSearchParams (this.id) 
-            this.idProduct =params.get("id") 
-            this.product=this.products.find(detalle=>detalle._id==this.idProduct) 
-
+            this.products=response.data; 
+            console.log(this.products);
+            this.phamarcy=this.products.filter(prod => prod.categoria=="farmacia");
+            console.log(this.phamarcy);
+            this.filteredPhamarcy=this.phamarcy;
             this.products.forEach(product => {
                 product.amount = 0;
                 product.availableInitials = product.disponibles;
@@ -38,10 +44,11 @@ const { createApp } = Vue
                     productInList.disponibles -= producInCart.amount;
                 }
             });
-
+            this.isLoading = false;
             this.saveCart();
         })
         .catch(err => {
+            this.isLoading = false;
             console.log(err);
         })
 },
@@ -133,6 +140,17 @@ methods:{
         });
         localStorage.setItem('amountsByProduct', JSON.stringify(amountsByProduct));
     },
+    getStockStatus(product) {
+        const disponibles = product.disponibles;
+    
+        if (disponibles > 0 && disponibles <= 5) {
+            return 'Últimas unidades';
+        } else if (disponibles === 0) {
+            return 'Agotado';
+        } else {
+            return '';
+        }
+    },
     plusAmount(product) {
         if (product.disponibles > 0) {
             product.amount++;
@@ -178,6 +196,23 @@ methods:{
             this.saveCart();
         }
     },
+    deleteProduct(product) {
+        const index = this.cart.findIndex((p) => p._id == product._id);
+        if (index !== -1) {
+          const indexInProducts = this.products.findIndex(
+            (p) => p._id === product._id
+          );
+          if (indexInProducts !== -1) {
+            this.products[indexInProducts].disponibles += product.amount;
+          }
+  
+          this.totalCart -= product.amount * product.precio;
+          this.cart.splice(index, 1);
+  
+          product.amount = 0;
+          this.saveCart();
+        }
+      },
     emptyCart() {
         this.cart = [];
         this.totalCart = 0;
@@ -237,6 +272,29 @@ methods:{
     customizeAlertContainer() {
         const container = Swal.getPopup();
         container.style.color = '#66b100';
+    },
+    applyFilters() {
+        this.filteredPhamarcy = this.phamarcy.filter((product) => {
+            const searchTextMatch = product.producto.toLowerCase().includes(this.inputText.toLowerCase());
+
+         
+            if (!this.priceRange) {
+                return searchTextMatch;
+            }
+
+            const priceMatch =
+                (this.priceRange === 'ZeroToThousand' && product.precio >= 0 && product.precio <= 1000) ||
+                (this.priceRange === 'ThousandToTwoThousand' && product.precio > 1000 && product.precio <= 2000) ||
+                (this.priceRange === 'OverTwoThousand' && product.precio > 2000);
+
+            return searchTextMatch && priceMatch;
+        });
+    },
+    handleClickOutside(event) {
+        if (!this.$el.contains(event.target)) {
+            this.priceRange = null;
+            this.applyFilters();
+        }
     },
 },
 

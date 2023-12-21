@@ -239,7 +239,7 @@
           class="carousel slide"
           data-bs-ride="carousel"
         >
-          <div class="carousel-inner text-center">
+          <div class="carousel-inner">
             <div class="carousel-item">
               <img
                 src="./assets/images/carousel2.png"
@@ -325,7 +325,7 @@
         >
           <div
             class="card m-3"
-            style="width: 18rem"
+            style="width: 14rem"
             v-for="product of mostSelledProducts"
           >
             <img
@@ -433,7 +433,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Ingresa el email"
+                    placeholder="email"
                     v-model="email"
                   />
                   <button
@@ -442,6 +442,11 @@
                     @click.prevent="subscribe"
                   >
                     Suscribirse
+                    <img
+                      class="img-huella"
+                      src="./assets/images/boton1.png"
+                      alt="huella"
+                    />
                   </button>
                 </form>
               </div>
@@ -486,13 +491,13 @@
                 <h3>Instagram</h3>
                 <div class="row gallery">
                   <div class="col-6">
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="./assets/images/collar-gatos.png"
                         alt="Image"
                         class="img-fluid"
                     /></a>
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="./assets/images/cepillo.jpg"
                         alt="Image"
@@ -500,13 +505,13 @@
                     /></a>
                   </div>
                   <div class="col-6">
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="./assets/images/collar-perros.png"
                         alt="Image"
                         class="img-fluid"
                     /></a>
-                    <a href="#"
+                    <a href="https://www.instagram.com"
                       ><img
                         src="./assets/images/tableta-pulgas-perros.jpg"
                         alt="Image"
