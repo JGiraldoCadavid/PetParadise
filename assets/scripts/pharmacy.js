@@ -1,200 +1,301 @@
-const {createApp} = Vue; 
-createApp({
-    data(){      
-        return{
-            carrito:[],
-            contadorCarritoProducto:0,
-            totalCarrito:0,
-            cantidad:0, 
-            productosTotales: [], 
-            productosFarmacia:[],   
-            farmaciaFiltrados: [],
-            textoIngresado: "",
-            menosDeMil: false, 
-            masDeMil: false, 
-            checked:[],
-            filtrados:[],
+const { createApp } = Vue
 
-
-            
-        }
+  createApp({
+    data() {
+      return {
+        product:{},
+        products: [],
+        cart:[],
+        totalCart:0,
+        amount:0,
+        shippingLow: 12000,
+        shippingHigh: 18000,
+        zeroToThousand: false,
+        thousandToTwoThousand: false,
+        overTwoThousand: false,
+        inputText:"",
+        phamarcy:[],
+        isLoading: true,
+        email: "",
+        filteredPhamarcy:[],
+        priceRange:""
+      }
+    },
+    mounted() {
+        this.loadCart();
     },
     created(){
-        fetch(`https://mindhub-xj03.onrender.com/api/petshop`)
-        .then(response => response.json())
-        .then(dataPetshop =>{
-            this.productosTotales = dataPetshop
-            this.productosFarmacia = this.filtrarProductosFarmacia(this.productosTotales)
-            console.log(this.productosFarmacia)
-
-            dataPetshop.forEach(producto => {
-                if (!producto.hasOwnProperty('cantidad')) {
-                    producto.cantidad = 0;
+        this.isLoading = true;
+        axios('https://mindhub-xj03.onrender.com/api/petshop')
+        .then(response => {
+            this.products=response.data; 
+            console.log(this.products);
+            this.phamarcy=this.products.filter(prod => prod.categoria=="farmacia");
+            console.log(this.phamarcy);
+            this.filteredPhamarcy=this.phamarcy;
+            this.products.forEach(product => {
+                product.amount = 0;
+                product.availableInitials = product.disponibles;
+            });
+            
+            this.cart.forEach(producInCart => {
+                const productInList = this.products.find(p => p._id == producInCart._id);
+                if (productInList) {
+                    productInList.disponibles -= producInCart.amount;
                 }
             });
-                 // this.cantidad=this.productosTotales.cantidad
-                
-                this.cargarCarritoDesdeLocalStorage();
-                this.actualizarCantidad();
-
+            this.isLoading = false;
+            this.saveCart();
         })
-        .catch(error => console.log(error))
+        .catch(err => {
+            this.isLoading = false;
+            console.log(err);
+        })
+},
+computed:{
+    totalItemsInCart() {
+        return this.cart.reduce((total, product) => total + product.amount, 0);
     },
+    subtotal() {
+        return this.totalCart;
+    },
+    shippingCost() {
+        return this.cart.length <= 6 ? this.shippingLow : this.shippingHigh;
+    },
+    total() {
+        return this.subtotal + this.shippingCost;
+    }
+},
+methods:{
+    loadCart() {
+        const cartData = localStorage.getItem('cart');
+        const totalCart = localStorage.getItem('totalCart');
+        const amountsByProduct = JSON.parse(localStorage.getItem('amountsByProduct'));
+        const amount = localStorage.getItem('amount');
+        if (cartData) {
+          this.cart = JSON.parse(cartData);
+          this.cart.forEach(product => {
+            if (amountsByProduct.hasOwnProperty(product._id)) {
+              product.amount = amountsByProduct[product._id];
+            }
+          });
+        }
+        if (amount) {
+          this.amount = parseFloat(amount);
+        } else {
+          this.amount = 0;
+        }
+        if (totalCart) {
+          this.totalCart = parseFloat(totalCart);
+        } else {
+          this.totalCart = 0;
+        }
+        if(this.cart.length==0){
+            this.totalCart=0;
+        }
 
-    methods:{
-
-        filtrarProductosFarmacia(dataPetshop){
-            let productosFarmacia = dataPetshop.filter(item => item.categoria == "farmacia")
-            return productosFarmacia
-        },
-
-        agregarAlCarrito(producto) {
-            if(producto.disponibles>0){
-
-              const prodCarrito = this.carrito.find(p => p._id === producto._id);
-            if (prodCarrito) {
-  
-              if (producto.disponibles >= 1) {
-                producto.disponibles--;
+        this.cart.forEach(product => {
+            const productInList = this.products.find(p => p._id == product._id);
+            if (productInList) {
+              product.amount = amountsByProduct[product._id];
+              product.disponibles = productInList.disponibles;
             }
-  
-            if (producto.cantidad >= 0) {
-                  prodCarrito.cantidad+=producto.cantidad;
-                  this.totalCarrito += producto.precio;
-              }
-          } else {
-              producto.disponibles--;
-              
-              if (producto.disponibles >= 0) {
-                  producto.cantidad = 1;
-                  this.totalCarrito += producto.precio;
-                  this.carrito.push(producto);
-                    console.log(this.carrito)
-              }
-          }
-            this.actualizarTotalCarrito();
-            this.guardarCarritoLocalStorage();
-            this.contadorCarritoProducto=this.carrito.length;
-            }
-          },
-          removerDesdeCarrito(producto){
-            const indice = this.carrito.findIndex(p => p._id === producto._id);
-            if (indice !== -1) {
-              if (producto.cantidad > 0) {
-                producto.cantidad--;
-            }
-            
-            if (producto.disponibles >= 0) {
-                producto.disponibles++;
-            }
-              this.totalCarrito -= producto.precio;
-              this.carrito.splice(indice, 1);
-              this.actualizarTotalCarrito();
-              this.guardarCarritoLocalStorage();
-            }
-            this.contadorCarritoProducto=this.carrito.length;
-          },
-          guardarCarritoLocalStorage() {
-            localStorage.setItem('carrito', JSON.stringify(this.carrito));
-            localStorage.setItem('totalCarrito', this.totalCarrito.toString())
-            localStorage.setItem('cantidad', this.cantidad.toString())
-            const cantidadesPorProducto = {};
-        
-            this.carrito.forEach(producto => {
-              cantidadesPorProducto[producto._id] = producto.cantidad;
-            });
-          
-            localStorage.setItem('cantidadesPorProducto', JSON.stringify(cantidadesPorProducto));
-          
-          },
-          cargarCarritoDesdeLocalStorage() {
-            const cartData = localStorage.getItem('carrito');
-            const totalCarrito = localStorage.getItem('totalCarrito');
-            const cantidadesPorProducto = JSON.parse(localStorage.getItem('cantidadesPorProducto'));
-            const cantidad = localStorage.getItem('cantidad');
-            
-            if (cartData) {
-              this.carrito = JSON.parse(cartData);
-              this.carrito.forEach(producto => {
-                if (cantidadesPorProducto.hasOwnProperty(producto._id)) {
-                  producto.cantidad = cantidadesPorProducto[producto._id];
+        });
+    },
+    addToCart(product) {
+        if (product.disponibles > 0) {
+            const prodCart = this.cart.find(p => p._id == product._id);
+            if (prodCart) {
+                if (product.disponibles >= 1) {
+                    product.disponibles--;
                 }
-              });
-            }
-            if (cantidad) {
-              this.cantidad = parseFloat(cantidad);
+                if (product.amount >= 0) {
+                    prodCart.amount += product.amount;
+                    this.totalCart += product.precio;
+                }
             } else {
-              this.cantidad = 0;
+                product.disponibles--;
+                if (product.disponibles >= 0) {
+                    product.amount = 1;
+                    this.totalCart += product.precio;
+                    this.cart.push(product);
+                }
             }
-            
-            if (totalCarrito) {
-              this.totalCarrito = parseFloat(totalCarrito);
-            } else {
-              this.totalCarrito = 0;
+    
+            const index = this.products.findIndex(p => p._id == product._id);
+            if (index != -1) {
+                this.products[index].disponibles = product.disponibles;
             }
-          },
 
-          vaciarCarrito() {
-            this.contadorCarritoProducto = 0;
-            this.carrito.forEach(productoEnCarrito => {
-              const productoEnLista = this.productosFarmacia.find(p => p._id === productoEnCarrito._id);
-              if (productoEnLista) {
-                productoEnLista.disponibles += productoEnCarrito.cantidad;
-              }
-            });
-            this.carrito = [];
-  
-            this.totalCarrito=0;
-            this.actualizarTotalCarrito();
-            this.guardarCarritoLocalStorage();
-          },
-
-
-          aumentarCantidad(producto) {
-            if(producto.disponibles>0){
-              producto.cantidad++;
-              producto.disponibles--;
-              this.actualizarTotalCarrito();
-              this.guardarCarritoLocalStorage()
-            }
-          },
-          disminuirCantidad(producto) {
-            if (producto.cantidad > 0) {
-              producto.cantidad--;
-              producto.disponibles++;
-              this.actualizarTotalCarrito();
-              this.guardarCarritoLocalStorage();
-            }
-          },
-          actualizarTotalCarrito() {
-            this.totalCarrito = this.carrito.reduce((total, producto) => {
-              return total + (producto.precio * producto.cantidad);
-          }, 0);
-          },
-          actualizarCantidad() {
-            this.cantidad = this.productosFarmacia.reduce((total, producto) => {
-              return total + producto.cantidad;
-            }, 0);
-          }
-      },
-
-
-
-    computed:{
-        filtroTexto() {
-            this.farmaciaFiltrados = this.productosFarmacia.filter(evento => {
-                const precio = evento.precio;
-                const texto = this.textoIngresado.toLowerCase();
-
-                const cumplePrecio =
-                    (!this.menosDeMil && !this.masDeMil) || 
-                    (this.menosDeMil && precio <= 1800) || 
-                    (this.masDeMil && precio > 1800); 
-
-                const cumpleTexto = evento.producto.toLowerCase().includes(texto);
-
-                return cumplePrecio && cumpleTexto;
-            })
+            this.saveCart();
         }
     },
-}).mount("#app")
+    saveCart(){
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        localStorage.setItem('totalCart', this.totalCart.toString())
+        localStorage.setItem('amount', this.amount.toString())
+        const amountsByProduct = {};
+        this.cart.forEach(product => {
+        amountsByProduct[product._id] = product.amount;
+        });
+        localStorage.setItem('amountsByProduct', JSON.stringify(amountsByProduct));
+    },
+    getStockStatus(product) {
+        const disponibles = product.disponibles;
+    
+        if (disponibles > 0 && disponibles <= 5) {
+            return 'Últimas unidades';
+        } else if (disponibles === 0) {
+            return 'Agotado';
+        } else {
+            return '';
+        }
+    },
+    plusAmount(product) {
+        if (product.disponibles > 0) {
+            product.amount++;
+            console.log("plusAmount called", product.amount);
+            product.disponibles--;
+    
+            const productInCart = { ...product };
+            const prodCart = this.cart.find(p => p._id == productInCart._id);
+    
+            if (prodCart) {
+                prodCart.amount = productInCart.amount;
+            } else {
+                this.cart.push(productInCart);
+            }
+    
+            const index = this.products.findIndex(p => p._id == product._id);
+            if (index != -1) {
+                this.products[index].disponibles = product.disponibles;
+            }
+    
+            this.totalCart += product.precio;
+    
+            this.saveCart();
+        }
+    },
+    minusAmount(product) {
+        if (product.amount > 1) {
+            console.log("Adentro");
+            product.amount--;
+            product.disponibles++;
+
+            const index = this.products.findIndex(p => p._id == product._id);
+            if (index !== -1) {
+                this.products[index].disponibles = product.disponibles;
+            }
+
+            const cartIndex = this.cart.findIndex(p => p._id == product._id);
+            if (cartIndex !== -1) {
+                this.totalCart -= product.precio;
+                this.cart[cartIndex].amount = product.amount;
+            }
+
+            this.saveCart();
+        }
+    },
+    deleteProduct(product) {
+        const index = this.cart.findIndex((p) => p._id == product._id);
+        if (index !== -1) {
+          const indexInProducts = this.products.findIndex(
+            (p) => p._id === product._id
+          );
+          if (indexInProducts !== -1) {
+            this.products[indexInProducts].disponibles += product.amount;
+          }
+  
+          this.totalCart -= product.amount * product.precio;
+          this.cart.splice(index, 1);
+  
+          product.amount = 0;
+          this.saveCart();
+        }
+      },
+    emptyCart() {
+        this.cart = [];
+        this.totalCart = 0;
+        this.amountsByProduct = {};
+
+        this.products.forEach(product => {
+            product.amount = 0;
+            product.disponibles = product.availableInitials;
+        });
+
+        this.saveCart();     
+    },
+    pay() {
+        Swal.fire({
+            title: 'Pago Exitoso',
+            text: '¡Gracias por tu compra! El pago se realizó exitosamente.',
+            icon: 'success',
+            confirmButtonColor: '#66b100',
+            background: '#202126',
+            didRender: this.customizeAlertContainer
+        });
+        this.emptyCart();
+    },
+    subscribe() {
+        if (this.email.trim() == "") {
+            this.showErrorAlert("Por favor, ingresa un correo electrónico.");
+        } else if (!this.isValidEmail(this.email)) {
+            this.showErrorAlert("Por favor, ingresa un correo electrónico válido.");
+        } else {
+            this.showSuccessAlert("¡Gracias por suscribirte!", "Bienvenido a nuestra comunidad. Estarás al tanto de las últimas ofertas y novedades. ¡Esperamos que disfrutes de la experiencia de compra en nuestra tienda!");
+        }
+    },
+    isValidEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    },
+    showSuccessAlert(title, text) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: "success",
+            background: "#202126",
+            confirmButtonColor: "#FF8700",
+            didRender: this.customizeAlertContainer
+        });
+    },
+    showErrorAlert(errorMessage) {
+        Swal.fire({
+            title: "Error",
+            text: errorMessage,
+            icon: "error",
+            background: "#202126",
+            confirmButtonColor: "#66b100",
+            didRender: this.customizeAlertContainer
+        });
+    },
+    customizeAlertContainer() {
+        const container = Swal.getPopup();
+        container.style.color = '#66b100';
+    },
+    applyFilters() {
+        this.filteredPhamarcy = this.phamarcy.filter((product) => {
+            const searchTextMatch = product.producto.toLowerCase().includes(this.inputText.toLowerCase());
+
+         
+            if (!this.priceRange) {
+                return searchTextMatch;
+            }
+
+            const priceMatch =
+                (this.priceRange === 'ZeroToThousand' && product.precio >= 0 && product.precio <= 1000) ||
+                (this.priceRange === 'ThousandToTwoThousand' && product.precio > 1000 && product.precio <= 2000) ||
+                (this.priceRange === 'OverTwoThousand' && product.precio > 2000);
+
+            return searchTextMatch && priceMatch;
+        });
+    },
+    handleClickOutside(event) {
+        if (!this.$el.contains(event.target)) {
+            this.priceRange = null;
+            this.applyFilters();
+        }
+    },
+},
+
+}).mount('#app')

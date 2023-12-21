@@ -1,123 +1,535 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle| Pet Paradise </title>
-    <link rel="shortcut icon" href="../images/PetParadiseIcono.png" type="image/x-icon">
-    <link rel="stylesheet" href="../styles/details.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</head>
-<body>
-    <div id="app">
-      <header class="d-flex justify-content-center">
-        
-        <nav class="navbar navbar-expand-lg  ">
-          <div class="container-fluid">          
-            <a class="navbar-brand" href="#"><img class="logo rounded-circle" src="../images/PetParadiseLogo.png" alt="Bootstrap"  height="100"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
-              <div class="navbar-nav ms-auto">
-                <a class="nav-link fs-5 fw-semibold active" aria-current="page" href="../../index.html"> Inicio</a>
-                <a class="nav-link fs-5 fw-semibold" href="./juguetes.html">Juguetes</a>
-                <a class="nav-link fs-5 fw-semibold" href="./farmacia.html">Farmacia</a>
-                <a class="nav-link fs-5 fw-semibold" href="./contact.html">Contacto</a>
-                             
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="../images/PetParadiseIcono.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../styles/details.css" />
+    <title>Pet Paradise | Detalle</title>
+  </head>
+  <body>
+    <div class="layout" id="app" v-cloak>
+      <div class="fixed-navbar-container">
+        <header class="topbar">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12">
+                <ul class="social-network">
+                  <li class="me-3">
+                    <a
+                      class="waves-effect waves-dark"
+                      href="https://www.facebook.com"
+                      target="_blank"
+                      ><i class="fa-brands fa-facebook-f fs-5"></i
+                    ></a>
+                  </li>
+                  <li class="me-3">
+                    <a
+                      class="waves-effect waves-dark"
+                      href="https://twitter.com"
+                      target="_blank"
+                      ><i class="fa-brands fa-x-twitter fs-5"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a
+                      class="waves-effect waves-dark"
+                      href="https://www.instagram.com"
+                      target="_blank"
+                      ><i class="fa-brands fa-instagram fs-5"></i
+                    ></a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-        </nav>
-    <div class="d-flex align-items-center justify-content-end">
-      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-cart4 cesta" @click="agregarAlCarrito(producto)"></i></button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasRightLabel">Tu Carrito</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="card-carrito">
-            <li v-for="producto of carrito">
-              <div class="fw-bold fs-4">{{producto.producto}}</div>
-              <div class="d-flex align-items-center justify-content-around">
-                <img :src="producto.imagen" class="card-img-top img-card object-fit-cover w-25" :alt="producto.producto" >
-                <div>
-                  <button class="aumentoDisminucion me-1" @click.prevent="disminuirCantidad(producto)">-</button>
-                  {{ producto.cantidad }}
-                  <button class="aumentoDisminucion ms-1" @click.prevent="aumentarCantidad(producto)">+</button>
-                </div>
+        </header>
+        <div class="container-fluid">
+          <div
+            class="navbar-conf d-flex justify-content-between align-items-center mx-background-top-linear p-1"
+          >
+            <a class="navbar-brand d-sm-block d-none" href="../../index.html">
+              <img
+                class="logo rounded-circle"
+                src="../images/PetParadiseLogo1.png"
+                alt="Bootstrap"
+                height="100"
+              />
+            </a>
+            <nav class="navbar navbar-expand-sm navbar-dark">
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="fs-4 nav-link text-light" href="../../index.html"
+                      >Inicio</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="fs-4 nav-link text-light" href="./toys.html"
+                      >Juguetes</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="fs-4 nav-link text-light" href="./pharmacy.html"
+                      >Farmacia</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="fs-4 nav-link text-light" href="./contact1.html"
+                      >Contacto</a
+                    >
+                  </li>
+                </ul>
               </div>
-              <div class="d-flex justify-content-between">
-                <div class="fs-5">$ {{producto.precio}}</div>
-                <button class="eliminar" @click.prevent="removerDesdeCarrito(producto)">Eliminar</button>
-              </div>
-            </li>
-           </ul>
-        </div>
-        <div class="d-flex justify-content-center"><span class="text-center mt-2 mb-2 total fw-bold fs-5">Total= {{totalCarrito}}</span></div>
-        <div class="d-flex justify-content-center"><button class="mt-2 mb-2 continuar" @click="">Continuar</button></div>
-        <div class="d-flex justify-content-center"><button class="mb-3 eliminar" @click="vaciarCarrito">Vaciar carrito</button></div>
-      </div>
-    </div>
-    </header>
-        
-        <main class="main-details d-flex align-content-center justify-content-center align-items-center">
-          <div class="card d-flex justify-content-center align-content-center">
-            <div  class="row d-flex justify-content-center ">
-              <div class="col-md-4 d-flex align-items-center  p-2  ">
-                <img v-bind:src="producto.imagen" class="img-fluid object-fit-cover  p-2 " alt="producto.producto">
-              </div>
-              <div class="col-md-6 ">
-                <div class="card-body  p-2 ">
-                  
-                  <h4 class="fs-1 fw-light p-3 text-danger "> {{producto.producto}}</h4>
-                  <p v-if="producto.disponibles<5" class="btn btn-warning border rounded-5 ">¡Pocas unidades!</p>
-                  <p class="card-text fst-italic lh-base">  {{producto.descripcion}}</p>
-                  
-                  <p class="card-text"> Precio:$ {{producto.precio}}</p>  
-                  <button type="button" class="btn btn-danger btn-lg border border-2 rounded-pill" ><i class="bi bi-bag" @click="agregarAlCarrito(producto)"></i>  Añadir a la cesta</button>           
-                </div>
-              </div>
+            </nav>
+            <div>
+              <button
+                class="btn text-light"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight"
+              >
+                <i
+                  class="fs-1 fa-solid fa-bag-shopping"
+                  :value="totalItemsInCart"
+                ></i>
+              </button>
+            </div>
           </div>
-          </div>   
-      </main> 
-      <footer class="d-flex flex-column  flex-lg-row justify-content-center align-items-center ">
-        <div class="d-flex flex-column align-items-center m-5 w-25">
-          <p class= "fst-italic fs-5 badge ">Pet Paradise Shop</p>
-          <p class= "fst-italic fs-6 lh-base badge">Paraguay 2334 5 F</p>
-          <p class= "fst-italic fs-6 lh-base badge">Buenos Aires, Argentina</p>
-        </div>
-        <div class="d-flex w-25 justify-content-center  ">
-          <a class="m-2" href="https://wa.me/+573024527869?text=Bienvenido!" target="_blank"><img src="../images/wsde.png" alt="link whatsapp" height="50">
-          </a>
-          <a class="m-2" href="https://www.facebook.com/groups/243471969040197" target="_blank"><img src="../images/fbde.png" alt="link de facebook" height="50">
-          </a>
-          <a class="m-2" href="https://www.twitter.com/" target="_blank"><img src="../images/twdes.png" alt="link instagram" height="50">
-          </a>
-        </div>
-        <div>
-        <form action="./assets/pages/show_data.html" method="get" class="p-4">
-          <fieldset class="d-flex flex-column  align-items-center ">
-              <legend class="fs-3 fw-light p-1 text-light">¡Suscribirse a promociones!</legend>
-              <div class="d-flex justify-content-center">
-                  <input class="rounded-3 p-1" type="email" name="email" id="email" placeholder="email@petparadise.com">
-                  <input class="m-2" type="submit" value="¡Suscribirme!">
+          <div
+            class="offcanvas offcanvas-end"
+            tabindex="-1"
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+          >
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title text-light" id="offcanvasRightLabel">
+                Tu Carrito
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body">
+              <div class="cart-item" v-for="cartProduct of cart">
+                <div class="text-center img-1">
+                  <img
+                    class="card-img-top img-card rounded"
+                    :src="cartProduct.imagen"
+                    :alt="cartProduct.producto"
+                  />
+                </div>
+                <div class="item-details text-light">
+                  <h6 class="mt-2 mb-3 text-center fs-5">
+                    {{cartProduct.producto}}
+                  </h6>
+                  <p class="d-flex align-items-center">
+                    <span class="border rounded-pill p-1">
+                      <i
+                        class="fa-solid fa-minus border rounded-circle p-1"
+                        style="color: #ffffff"
+                        @click="minusAmount(cartProduct)"
+                      ></i>
+                      <span class="quantity p-4">{{cartProduct.amount}}</span>
+                      <i
+                        class="fa-solid fa-plus border rounded-circle p-1"
+                        style="color: #ffffff"
+                        @click="plusAmount(cartProduct)"
+                      ></i>
+                    </span>
+                    <button
+                      class="btn btn-danger delete-icon ms-auto"
+                      @click="deleteProduct(cartProduct)"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </p>
+                  <p class="fs-5">
+                    Precio unitario: $
+                    {{cartProduct.precio.toLocaleString('de-DE')}}
+                  </p>
+                </div>
+                <hr class="text-light" />
               </div>
-          </fieldset>
-        </form>
+              <div class="d-flex justify-content-center">
+                <button
+                  class="ui-btn rounded-pill"
+                  v-if="cart.length>0"
+                  @click="emptyCart"
+                >
+                  <span class="fs-5"> Vaciar carrito </span>
+                </button>
+              </div>
+              <div class="text-light mt-2" v-if="cart.length > 0">
+                <p class="fs-5">
+                  <span class="text-decoration-underline">Subtotal</span>: $ {{
+                  subtotal.toLocaleString('de-DE') }}
+                </p>
+              </div>
+              <div class="text-light">
+                <p
+                  class="fs-5"
+                  v-show="cart.length > 0"
+                  v-if="cart.length <= 6"
+                >
+                  <span class="text-decoration-underline">Domicilio</span>: $ {{
+                  shippingCost.toLocaleString('de-DE') }}
+                </p>
+              </div>
+              <div class="text-light" v-if="cart.length > 0">
+                <p class="fs-5">
+                  <span class="text-decoration-underline">Total</span>: $ {{
+                  total.toLocaleString('de-DE') }}
+                </p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button
+                  class="ui-btn rounded-pill"
+                  v-if="cart.length>0"
+                  @click="pay"
+                >
+                  <span class="fs-5"> Ir a Pagar </span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class=" d-flex justify-content-center w-25 ">
-          <img class = "logofooter" src="../images/logofooter.png" alt="huella amor">
+      </div>
+      <main class="flex-grow-1 d-flex flex-column justify-content-center">
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="card m-3 d-flex" style="width: 18rem">
+            <div class="row g-0">
+              <div
+                class="col-md-6 d-flex justify-content-center align-items-center"
+              >
+                <img
+                  :src="product.imagen"
+                  class="card-img-top m-3 rounded"
+                  alt="product.producto"
+                />
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5
+                    class="card-title text-center d-flex align-items-end justify-content-center fs-3"
+                  >
+                    {{product.producto}}
+                  </h5>
+                </div>
+                <div>
+                  <p class="m-3 fs-6 text-justify">{{product.descripcion}}</p>
+                  <div
+                    class="d-flex justify-content-center align-items-center m-2"
+                  >
+                    <h6 class="fs-4 m-0" v-if="product.precio">
+                      $ {{product.precio.toLocaleString('de-DE')}}
+                    </h6>
+                    <button
+                      type="button"
+                      class="btn-card ps-3 pe-3 pt-2 pb-2 ms-5"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      v-show="product.disponibles != 0"
+                      @click="addToCart(product)"
+                    >
+                      <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  class="stockProduct text-center pb-5"
+                  v-if="getStockStatus(product)"
+                >
+                  {{ getStockStatus(product) }}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-    </footer>
-      
-    </div> 
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>   
-<script src="../scripts/details.js"></script>   
-</body>
+        <div class="line-container">
+          <span class="favorite p-1 fs-4">También te puede interesar</span>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="card m-3 card-prom" v-for="product of productsCategory">
+            <img
+              :src="product.imagen"
+              class="card-img-top-1"
+              alt="product.producto"
+              @click="redirectToDetailsPage(product._id)"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-center">{{product.producto}}</h5>
+              <h6 class="text-end fs-6 mb-3">
+                $ {{product.precio.toLocaleString('de-DE')}}
+              </h6>
+              <div class="d-flex align-items-center justify-content-center">
+                <a
+                  @click="redirectToDetailsPage(product._id)"
+                  class="btn-card me-1 fw-semibold"
+                  >Mas información</a
+                >
+                <button
+                  type="button"
+                  class="btn-card"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  v-show="product.disponibles != 0"
+                  @click="addToCart(product)"
+                >
+                  <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <p
+                class="stockProduct text-center pb-5"
+                v-if="getStockStatus(product)"
+              >
+                {{ getStockStatus(product) }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="line-container">
+          <span class="favorite p-1 fs-4 m-4 text-center"
+            >Calificaciones y comentarios</span
+          >
+        </div>
+        <div class="d-flex justify-content-around flex-wrap">
+          <div class="form-container m-4">
+            <h2 class="text-light">Agregar comentario</h2>
+            <form @submit.prevent="addReview">
+              <label class="text-light" for="name">Nombre:</label>
+              <input
+                v-model="newReview.name"
+                class="form-input"
+                type="text"
+                id="name"
+                required
+              />
+              <label class="text-light" for="comment">Comentario:</label>
+              <textarea
+                v-model="newReview.comment"
+                class="form-input"
+                rows="4"
+                required
+              ></textarea>
+              <label class="text-light" for="rating">Calificación:</label>
+              <select v-model="newReview.rating" class="form-select" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <div class="d-flex justify-content-center mt-3">
+                <button
+                  class="ui-btn rounded-pill form-button"
+                  type="button"
+                  @click="addReview"
+                >
+                  <span class="fs-5"> Comentar </span>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="review-list-container m-4">
+            <h2>Comentarios</h2>
+            <div class="review-list">
+              <div class="review">
+                <strong>Maria Pedraza</strong> (★★★★★)<br />
+                Me encantó el producto, ¡definitivamente lo recomendaría!
+              </div>
+              <div v-if="reviews.length > 0">
+                <div
+                  v-for="(review, index) in reviews"
+                  :key="index"
+                  class="review"
+                >
+                  <strong>{{ review.name }}</strong> ({{
+                  getRatingStars(review.rating) }})<br />
+                  {{ review.comment }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footerTIA pb-3">
+        <div class="site-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md pr-md-5 mb-4 mb-md-0">
+                <h3>Acerca de nosotros</h3>
+                <p class="text-justify text-light">
+                  Nos dedicamos a ofrecer una experiencia única para ti y tus
+                  mascotas. Nos enorgullece proporcionar una amplia variedad de
+                  juguetes especialmente seleccionados para mantener a tus
+                  amigos de cuatro patas activos y entretenidos.
+                </p>
+                <p class="text-justify text-light">
+                  Además, entendemos la importancia de la salud y el cuidado de
+                  tus mascotas. En nuestra farmacia para mascotas, ofrecemos una
+                  gama completa de productos de alta calidad, desde alimentos
+                  especializados hasta suplementos y medicamentos.
+                </p>
+                <ul class="list-unstyled quick-info mb-4">
+                  <li>
+                    <a href="#" class="d-flex align-items-center"
+                      ><span
+                        class="fa-solid fa-mobile-screen-button me-3"
+                        style="color: #66b100"
+                      ></span
+                      >+57 300 000 0000</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="d-flex align-items-center"
+                      ><span
+                        class="fa-regular fa-envelope me-3"
+                        style="color: #66b100"
+                      ></span
+                      >petparadise@gmail.com</a
+                    >
+                  </li>
+                </ul>
+                <form action="#" class="subscribe">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="email"
+                    v-model="email"
+                  />
+                  <button
+                    class="btn btn-submit"
+                    type="submit"
+                    @click.prevent="subscribe"
+                  >
+                    Suscribirse
+                    <img
+                      class="img-huella"
+                      src="../images/boton1.png"
+                      alt="huella"
+                    />
+                  </button>
+                </form>
+              </div>
+              <div class="col-md mb-4 mb-md-0">
+                <h3>Últimos Tweets</h3>
+                <ul class="list-unstyled tweets">
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🐾 ¡Bienvenido a tu paraíso para mascotas, Pet Paradise!
+                      🛍️ Tu pedido está en nuestras manos y nos emociona
+                      preparar una experiencia única para tus amigos peludos.
+                      Desde juguetes hasta productos de farmacia, ¡estamos aquí
+                      para consentir a tus mascotas! 🌈✨ #PetParadise
+                      #MimosParaMascotas
+                    </div>
+                  </li>
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🎁 ¡Gracias por confiar en Pet Paradise para las
+                      necesidades de tus mascotas! 🚚 Tu pedido ha sido recibido
+                      y estamos listos para enviar una dosis de felicidad a tus
+                      amigos peludos. ¡Que tus mascotas disfruten de su paraíso
+                      personal! 🐶🐾 #PetParadiseEntrega #ClientesFelices
+                    </div>
+                  </li>
+                  <li class="d-flex">
+                    <div><span class="fa-brands fa-x-twitter"></span></div>
+                    <div class="ms-3 text-justify text-light">
+                      🌟 ¡Tu viaje al paraíso de las mascotas ha comenzado con
+                      Pet Paradise! 🛒 Gracias por elegirnos para consentir a
+                      tus amigos peludos. Tu pedido ha sido recibido y pronto
+                      tus mascotas disfrutarán de la magia de nuestro paraíso de
+                      juguetes y cuidado de la salud. 🐱🐾
+                      #PetParadiseExperiencia #GraciasClientes
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-3 mb-4 mb-md-0">
+                <h3>Instagram</h3>
+                <div class="row gallery">
+                  <div class="col-6">
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/collar-gatos.png"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/cepillo.jpg"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                  </div>
+                  <div class="col-6">
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/collar-perros.png"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                    <a href="https://www.instagram.com"
+                      ><img
+                        src="../images/tableta-pulgas-perros.jpg"
+                        alt="Image"
+                        class="img-fluid"
+                    /></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../scripts/details.js"></script>
+  </body>
 </html>

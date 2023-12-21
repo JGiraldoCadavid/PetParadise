@@ -1,159 +1,313 @@
-const { createApp } = Vue
+const { createApp } = Vue;
 
-  createApp({
-    data() {
-      return {
-        producto:{},
-        productos:[], 
-        idProducto:null, 
-        parametro:null,
-        carrito:[],
-        contadorCarritoProducto:0,
-        totalCarrito:0,
-        cantidad:0,                 
-      }
-    },
+createApp({
+  data() {
+    return {
+      product: {},
+      products: [],
+      idProduct: "",
+      id: "",
+      cart: [],
+      totalCart: 0,
+      amount: 0,
+      shippingLow: 12000,
+      shippingHigh: 18000,
+      email: "",
+      productsCategory: [],
+      newReview: {
+        name: "",
+        comment: "",
+        rating: "1",
+      },
+      reviews: [],
+    };
+  },
+  mounted() {
+    this.loadCart();
+    this.getReviews();
+  },
+  created() {
+    axios("https://mindhub-xj03.onrender.com/api/petshop")
+      .then((response) => {
+        this.products = response.data;
 
-    created(){
-        fetch('https://mindhub-xj03.onrender.com/api/petshop')
-        .then(response=> response.json())
-        .then((data)=> {         
-        this.productos=data
-        console.log(this.productos)
-        this.parametro=location.search
-        let params= new URLSearchParams (this.parametro) 
-        this.idProducto =params.get("parametro") 
-        this.producto=this.productos.find(detalle=>detalle._id==this.idProducto)     
-        
-        data.forEach(producto => {
-          if (!producto.hasOwnProperty('cantidad')) {
-              producto.cantidad = 0;
+        this.id = location.search;
+        let params = new URLSearchParams(this.id);
+        this.idProduct = params.get("id");
+        this.product = this.products.find(
+          (prod) => prod._id == this.idProduct
+        );
+
+        this.productsCategory = this.products.filter((prod) => {
+          return (
+            this.product.categoria == prod.categoria &&
+            prod.disponibles > 0 &&
+            this.product._id != prod._id
+          );
+        });
+        this.products.forEach((product) => {
+          product.amount = 0;
+          product.availableInitials = product.disponibles;
+        });
+
+        this.cart.forEach((producInCart) => {
+          const productInList = this.products.find(
+            (p) => p._id == producInCart._id
+          );
+          if (productInList) {
+            productInList.disponibles -= producInCart.amount;
           }
-      });          
-            
-          
-          this.cargarCarritoDesdeLocalStorage();
-          this.actualizarCantidad();
+        });
+
+        this.saveCart();
       })
-      .catch(err => console.log(err))    
-
-},
-methods:{
-  agregarAlCarrito(producto) {
-    if(producto.disponibles>0){
-      const prodCarrito = this.carrito.find(p => p._id === producto._id);
-    if (prodCarrito) {
-
-      if (producto.disponibles >= 1) {
-        producto.disponibles--;
-    }
-
-    if (producto.cantidad >= 0) {
-          prodCarrito.cantidad+=producto.cantidad;
-          this.totalCarrito += producto.precio;
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  computed: {
+    totalItemsInCart() {
+      return this.cart.reduce((total, product) => total + product.amount, 0);
+    },
+    subtotal() {
+      return this.totalCart;
+    },
+    shippingCost() {
+      return this.cart.length <= 6 ? this.shippingLow : this.shippingHigh;
+    },
+    total() {
+      return this.subtotal + this.shippingCost;
+    },
+  },
+  methods: {
+    loadCart() {
+      const cartData = localStorage.getItem("cart");
+      const totalCart = localStorage.getItem("totalCart");
+      const amountsByProduct = JSON.parse(
+        localStorage.getItem("amountsByProduct")
+      );
+      const amount = localStorage.getItem("amount");
+      if (cartData) {
+        this.cart = JSON.parse(cartData);
+        this.cart.forEach((product) => {
+          if (amountsByProduct.hasOwnProperty(product._id)) {
+            product.amount = amountsByProduct[product._id];
+          }
+        });
       }
-  } else {
-      producto.disponibles--;
-      
-      if (producto.disponibles >= 0) {
-          producto.cantidad = 1;
-          this.totalCarrito += producto.precio;
-          this.carrito.push(producto);
+      if (amount) {
+        this.amount = parseFloat(amount);
+      } else {
+        this.amount = 0;
       }
-  }
-    this.actualizarTotalCarrito();
-    this.guardarCarritoLocalStorage();
-    this.contadorCarritoProducto=this.carrito.length;
-    }
-  },
-  removerDesdeCarrito(producto){
-    const indice = this.carrito.findIndex(p => p._id === producto._id);
-    if (indice !== -1) {
-      if (producto.cantidad > 0) {
-        producto.cantidad--;
-    }
-    
-    if (producto.disponibles >= 0) {
-        producto.disponibles++;
-    }
-      this.totalCarrito -= producto.precio;
-      this.carrito.splice(indice, 1);
-      this.actualizarTotalCarrito();
-      this.guardarCarritoLocalStorage();
-    }
-    this.contadorCarritoProducto=this.carrito.length;
-  },
-  guardarCarritoLocalStorage() {
-    localStorage.setItem('carrito', JSON.stringify(this.carrito));
-    localStorage.setItem('totalCarrito', this.totalCarrito.toString())
-    localStorage.setItem('cantidad', this.cantidad.toString())
-    const cantidadesPorProducto = {};
+      if (totalCart) {
+        this.totalCart = parseFloat(totalCart);
+      } else {
+        this.totalCart = 0;
+      }
+      if (this.cart.length == 0) {
+        this.totalCart = 0;
+      }
 
-    this.carrito.forEach(producto => {
-      cantidadesPorProducto[producto._id] = producto.cantidad;
-    });
-  
-    localStorage.setItem('cantidadesPorProducto', JSON.stringify(cantidadesPorProducto));
-  
-  },
-  cargarCarritoDesdeLocalStorage() {
-    const cartData = localStorage.getItem('carrito');
-    const totalCarrito = localStorage.getItem('totalCarrito');
-    const cantidadesPorProducto = JSON.parse(localStorage.getItem('cantidadesPorProducto'));
-    const cantidad = localStorage.getItem('cantidad');
-    
-    if (cartData) {
-      this.carrito = JSON.parse(cartData);
-      this.carrito.forEach(producto => {
-        if (cantidadesPorProducto.hasOwnProperty(producto._id)) {
-          producto.cantidad = cantidadesPorProducto[producto._id];
+      this.cart.forEach((product) => {
+        const productInList = this.products.find((p) => p._id == product._id);
+        if (productInList) {
+          product.amount = amountsByProduct[product._id];
+          product.disponibles = productInList.disponibles;
         }
       });
-    }
-    if (cantidad) {
-      this.cantidad = parseFloat(cantidad);
-    } else {
-      this.cantidad = 0;
-    }
-    
-    if (totalCarrito) {
-      this.totalCarrito = parseFloat(totalCarrito);
-    } else {
-      this.totalCarrito = 0;
-    }
-  },
-  vaciarCarrito() {
-    this.carrito = [];
-    this.contadorCarritoProducto = 0;
-    this.totalCarrito=0;
-    this.guardarCarritoLocalStorage();
-  },
-  aumentarCantidad(producto) {
-    if(producto.disponibles>0){
-      producto.cantidad++;
-      producto.disponibles--;
-      this.actualizarTotalCarrito();
-      this.guardarCarritoLocalStorage()
-    }
-  },
-  disminuirCantidad(producto) {
-    if (producto.cantidad > 0) {
-      producto.cantidad--;
-      producto.disponibles++;
-      this.actualizarTotalCarrito();
-      this.guardarCarritoLocalStorage();
-    }
-  },
-  actualizarTotalCarrito() {
-    this.totalCarrito = this.carrito.reduce((total, producto) => {
-      return total + (producto.precio * producto.cantidad);
-  }, 0);
-  },
-  actualizarCantidad() {
-    this.cantidad = this.productos.reduce((total, producto) => {
-      return total + producto.cantidad;
-    }, 0);
-  },
-},
+    },
+    addToCart(product) {
+      if (product.disponibles > 0) {
+        const prodCart = this.cart.find((p) => p._id == product._id);
+        if (prodCart) {
+          if (product.disponibles >= 1) {
+            product.disponibles--;
+          }
+          if (product.amount >= 0) {
+            prodCart.amount += product.amount;
+            this.totalCart += product.precio;
+          }
+        } else {
+          product.disponibles--;
+          if (product.disponibles >= 0) {
+            product.amount = 1;
+            this.totalCart += product.precio;
+            this.cart.push(product);
+          }
+        }
 
-}).mount('#app')
+        const index = this.products.findIndex((p) => p._id == product._id);
+        if (index != -1) {
+          this.products[index].disponibles = product.disponibles;
+        }
+
+        this.saveCart();
+      }
+    },
+    saveCart() {
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+      localStorage.setItem("totalCart", this.totalCart.toString());
+      localStorage.setItem("amount", this.amount.toString());
+      const amountsByProduct = {};
+      this.cart.forEach((product) => {
+        amountsByProduct[product._id] = product.amount;
+      });
+      localStorage.setItem(
+        "amountsByProduct",
+        JSON.stringify(amountsByProduct)
+      );
+    },
+    plusAmount(product) {
+      if (product.disponibles > 0) {
+        product.amount++;
+        product.disponibles--;
+
+        const productInCart = { ...product };
+        const prodCart = this.cart.find((p) => p._id == productInCart._id);
+
+        if (prodCart) {
+          prodCart.amount = productInCart.amount;
+        } else {
+          this.cart.push(productInCart);
+        }
+
+        const index = this.products.findIndex((p) => p._id == product._id);
+        if (index != -1) {
+          this.products[index].disponibles = product.disponibles;
+        }
+
+        this.totalCart += product.precio;
+
+        this.saveCart();
+      }
+    },
+    minusAmount(product) {
+      if (product.amount > 1) {
+        product.amount--;
+        product.disponibles++;
+
+        const index = this.products.findIndex((p) => p._id == product._id);
+        if (index !== -1) {
+          this.products[index].disponibles = product.disponibles;
+        }
+
+        const cartIndex = this.cart.findIndex((p) => p._id == product._id);
+        if (cartIndex !== -1) {
+          this.totalCart -= product.precio;
+          this.cart[cartIndex].amount = product.amount;
+        }
+
+        this.saveCart();
+      }
+    },
+    deleteProduct(product) {
+      const index = this.cart.findIndex((p) => p._id == product._id);
+      if (index !== -1) {
+        const indexInProducts = this.products.findIndex(
+          (p) => p._id === product._id
+        );
+        if (indexInProducts !== -1) {
+          this.products[indexInProducts].disponibles += product.amount;
+        }
+
+        this.totalCart -= product.amount * product.precio;
+        this.cart.splice(index, 1);
+
+        product.amount = 0;
+        this.saveCart();
+      }
+    },
+    emptyCart() {
+      this.cart = [];
+      this.totalCart = 0;
+      this.amountsByProduct = {};
+
+      this.products.forEach((product) => {
+        product.amount = 0;
+        product.disponibles = product.availableInitials;
+      });
+
+      this.saveCart();
+    },
+    pay() {
+      Swal.fire({
+        title: "Pago Exitoso",
+        text: "¡Gracias por tu compra! El pago se realizó exitosamente.",
+        icon: "success",
+        confirmButtonColor: "#66b100",
+        background: "#202126",
+        didRender: this.customizeAlertContainer,
+      });
+      this.emptyCart();
+    },
+    getStockStatus(product) {
+      const disponibles = product.disponibles;
+  
+      if (disponibles > 0 && disponibles <= 5) {
+          return 'Últimas unidades';
+      } else if (disponibles === 0) {
+          return 'Agotado';
+      } else {
+          return '';
+      }
+  },
+    redirectToDetailsPage(productId) {
+      window.location.href = `./details.html?id=${productId}`;
+    },
+    addReview() {
+      this.reviews.push({ ...this.newReview });
+      localStorage.setItem("reviews", JSON.stringify(this.reviews));
+      this.newReview = { name: "", comment: "", rating: 1 };
+    },
+    getReviews() {
+      const storedReviews = localStorage.getItem("reviews");
+      if (storedReviews) {
+        this.reviews = JSON.parse(storedReviews);
+      }
+    },
+    getRatingStars(rating) {
+      return "★".repeat(rating) + "☆".repeat(5 - rating);
+    },
+    subscribe() {
+      if (this.email.trim() == "") {
+        this.showErrorAlert("Por favor, ingresa un correo electrónico.");
+      } else if (!this.isValidEmail(this.email)) {
+        this.showErrorAlert("Por favor, ingresa un correo electrónico válido.");
+      } else {
+        this.showSuccessAlert(
+          "¡Gracias por suscribirte!",
+          "Bienvenido a nuestra comunidad. Estarás al tanto de las últimas ofertas y novedades. ¡Esperamos que disfrutes de la experiencia de compra en nuestra tienda!"
+        );
+      }
+    },
+    isValidEmail(email) {
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    showSuccessAlert(title, text) {
+      Swal.fire({
+        title: title,
+        text: text,
+        icon: "success",
+        background: "#202126",
+        confirmButtonColor: "#FF8700",
+        didRender: this.customizeAlertContainer,
+      });
+    },
+    showErrorAlert(errorMessage) {
+      Swal.fire({
+        title: "Error",
+        text: errorMessage,
+        icon: "error",
+        background: "#202126",
+        confirmButtonColor: "#66b100",
+        didRender: this.customizeAlertContainer,
+      });
+    },
+    customizeAlertContainer() {
+      const container = Swal.getPopup();
+      container.style.color = "#66b100";
+    },
+  },
+}).mount("#app");
