@@ -246,7 +246,7 @@ createApp({
         text: text,
         icon: "success",
         background: "#202126",
-        confirmButtonColor: "#FF8700",
+        confirmButtonColor: "#3c9700",
         didRender: this.customizeAlertContainer,
       });
     },
